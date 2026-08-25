@@ -7,9 +7,9 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/', function () {
     return view('auth.login');
