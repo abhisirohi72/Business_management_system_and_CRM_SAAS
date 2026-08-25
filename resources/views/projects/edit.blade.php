@@ -2,109 +2,20 @@
 
 @section('content')
 
-<style>
-    .project-form-page {
-        padding: 30px;
-    }
-
-    .form-card {
-        background: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-group.full-width {
-        grid-column: 1 / -1;
-    }
-
-    .form-group label {
-        margin-bottom: 7px;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 10px 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 14px;
-        outline: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: #2563eb;
-    }
-
-    .error {
-        margin-top: 5px;
-        color: #dc2626;
-        font-size: 12px;
-    }
-
-    .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 25px;
-    }
-
-    .btn-secondary {
-        display: inline-block;
-        padding: 10px 16px;
-        background: #f3f4f6;
-        color: #374151;
-        border-radius: 7px;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn-primary {
-        padding: 10px 16px;
-        background: #2563eb;
-        color: #fff;
-        border: none;
-        border-radius: 7px;
-        cursor: pointer;
-    }
-
-    .page-header .project-header-actions {
-        display: flex;
-        gap: 10px;
-    }
-</style>
-
-
 <div class="project-form-page">
 
     {{-- Page Header --}}
     <div class="page-header">
 
         <div>
-            <h1>Add Project</h1>
-            <p>Create a new project for your client.</p>
+            <h1>Edit Project</h1>
+            <p>Update project information for your client.</p>
         </div>
 
         <div class="project-header-actions">
 
             <a href="{{ route('projects.index') }}" class="btn-secondary">
-                ← Back to Projects
+                ← Back To Projects
             </a>
 
         </div>
@@ -115,10 +26,14 @@
     {{-- Form Card --}}
     <div class="form-card">
 
-        <form action="{{ route('projects.store') }}" method="POST">
+        <form
+            action="{{ route('projects.update', $project) }}"
+            method="POST"
+        >
 
             @csrf
-            
+            @method('PUT')
+
             <div class="form-grid">
 
                 {{-- Client --}}
@@ -134,7 +49,7 @@
 
                             <option
                                 value="{{ $client->id }}"
-                                {{ old('client_id') == $client->id ? 'selected' : '' }}
+                                {{ old('client_id', $project->client_id) == $client->id ? 'selected' : '' }}
                             >
                                 {{ $client->name }}
                             </option>
@@ -159,7 +74,7 @@
                         type="text"
                         id="name"
                         name="name"
-                        value="{{ old('name') }}"
+                        value="{{ old('name', $project->name) }}"
                         placeholder="Enter project name"
                     >
 
@@ -178,22 +93,22 @@
                     <select id="status" name="status">
 
                         <option value="pending"
-                            {{ old('status', 'pending') === 'pending' ? 'selected' : '' }}>
+                            {{ old('status', $project->status) === 'pending' ? 'selected' : '' }}>
                             Pending
                         </option>
 
                         <option value="in_progress"
-                            {{ old('status') === 'in_progress' ? 'selected' : '' }}>
+                            {{ old('status', $project->status) === 'in_progress' ? 'selected' : '' }}>
                             In Progress
                         </option>
 
                         <option value="completed"
-                            {{ old('status') === 'completed' ? 'selected' : '' }}>
+                            {{ old('status', $project->status) === 'completed' ? 'selected' : '' }}>
                             Completed
                         </option>
 
                         <option value="cancelled"
-                            {{ old('status') === 'cancelled' ? 'selected' : '' }}>
+                            {{ old('status', $project->status) === 'cancelled' ? 'selected' : '' }}>
                             Cancelled
                         </option>
 
@@ -214,22 +129,22 @@
                     <select id="priority" name="priority">
 
                         <option value="low"
-                            {{ old('priority', 'medium') === 'low' ? 'selected' : '' }}>
+                            {{ old('priority', $project->priority) === 'low' ? 'selected' : '' }}>
                             Low
                         </option>
 
                         <option value="medium"
-                            {{ old('priority', 'medium') === 'medium' ? 'selected' : '' }}>
+                            {{ old('priority', $project->priority) === 'medium' ? 'selected' : '' }}>
                             Medium
                         </option>
 
                         <option value="high"
-                            {{ old('priority') === 'high' ? 'selected' : '' }}>
+                            {{ old('priority', $project->priority) === 'high' ? 'selected' : '' }}>
                             High
                         </option>
 
                         <option value="urgent"
-                            {{ old('priority') === 'urgent' ? 'selected' : '' }}>
+                            {{ old('priority', $project->priority) === 'urgent' ? 'selected' : '' }}>
                             Urgent
                         </option>
 
@@ -251,7 +166,7 @@
                         type="date"
                         id="start_date"
                         name="start_date"
-                        value="{{ old('start_date') }}"
+                        value="{{ old('start_date', $project->start_date) }}"
                     >
 
                     {{-- @error('start_date')
@@ -270,7 +185,7 @@
                         type="date"
                         id="due_date"
                         name="due_date"
-                        value="{{ old('due_date') }}"
+                        value="{{ old('due_date', $project->due_date) }}"
                     >
 
                     {{-- @error('due_date')
@@ -289,7 +204,7 @@
                         type="number"
                         id="budget"
                         name="budget"
-                        value="{{ old('budget') }}"
+                        value="{{ old('budget', $project->budget) }}"
                         placeholder="Enter project budget"
                         step="0.01"
                         min="0"
@@ -312,7 +227,7 @@
                         name="description"
                         rows="4"
                         placeholder="Enter project description"
-                    >{{ old('description') }}</textarea>
+                    >{{ old('description', $project->description) }}</textarea>
 
                     {{-- @error('description')
                         <span class="error">{{ $message }}</span>
@@ -337,7 +252,7 @@
                     type="submit"
                     class="btn-primary"
                 >
-                    Create Project
+                    Update Project
                 </button>
 
             </div>

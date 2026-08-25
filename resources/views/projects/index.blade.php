@@ -3,7 +3,7 @@
 @section('content')
 
 <style>
-    .projects-page {
+    /* .projects-page {
         padding: 30px;
     }
 
@@ -99,25 +99,7 @@
         color: #991b1b;
     }
 
-    .priority-low {
-        background: #f3f4f6;
-        color: #374151;
-    }
 
-    .priority-medium {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .priority-high {
-        background: #ffedd5;
-        color: #9a3412;
-    }
-
-    .priority-urgent {
-        background: #fee2e2;
-        color: #991b1b;
-    }
 
     .actions {
         display: flex;
@@ -157,7 +139,7 @@
         color: #166534;
         border-radius: 7px;
         font-size: 14px;
-    }
+    } */
 </style>
 
 
@@ -171,20 +153,11 @@
             <p>Manage all your company projects.</p>
         </div>
 
-        <a href="{{ route('projects.create') }}" class="btn-primary">
+        <a href="{{ route('projects.create') }}" class="add-btn">
             + Add Project
         </a>
 
     </div>
-
-
-    {{-- Success Message --}}
-    @if(session('success'))
-        <div class="success-message">
-            {{ session('success') }}
-        </div>
-    @endif
-
 
     {{-- Projects Table --}}
     <div class="table-card">
@@ -261,13 +234,11 @@
                                     : '-' }}
                             </td>
 
-                            <td>
-
-                                <div class="actions">
+                            <td class="actions">
 
                                     <a
                                         href="{{ route('projects.edit', $project) }}"
-                                        class="btn-edit"
+                                        class="edit-btn"
                                     >
                                         Edit
                                     </a>
@@ -275,6 +246,7 @@
                                     <form
                                         action="{{ route('projects.destroy', $project) }}"
                                         method="POST"
+                                        style="display:inline;"
                                         onsubmit="return confirm('Are you sure you want to delete this project?');"
                                     >
 
@@ -283,14 +255,12 @@
 
                                         <button
                                             type="submit"
-                                            class="btn-delete"
+                                            class="delete-btn"
                                         >
                                             Delete
                                         </button>
 
                                     </form>
-
-                                </div>
 
                             </td>
 

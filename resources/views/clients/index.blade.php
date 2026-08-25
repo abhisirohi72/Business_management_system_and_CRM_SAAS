@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    .clients-page {
+    /* .clients-page {
         padding: 30px;
     }
 
@@ -126,11 +126,9 @@
         text-align: center !important;
         padding: 40px !important;
         color: #6b7280;
-    }
+    } */
 
-    .pagination {
-        margin-top: 20px;
-    }
+    
 </style>
 <div class="clients-page">
 
@@ -141,19 +139,11 @@
             <p>Manage your company's clients.</p>
         </div>
 
-        <a href="{{ route('clients.create') }}" class="btn-primary">
+        <a href="{{ route('clients.create') }}" class="add-btn">
             + Add Client
         </a>
 
     </div>
-
-
-    {{-- Success Message --}}
-    @if(session('success'))
-        <div class="alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
 
     <div class="table-card">
@@ -225,14 +215,14 @@
 
                             <a
                                 href="{{ route('clients.show', $client) }}"
-                                class="btn-view"
+                                class="view-btn"
                             >
                                 View
                             </a>
 
                             <a
                                 href="{{ route('clients.edit', $client) }}"
-                                class="btn-edit"
+                                class="edit-btn"
                             >
                                 Edit
                             </a>
@@ -249,7 +239,7 @@
 
                                 <button
                                     type="submit"
-                                    class="btn-delete"
+                                    class="delete-btn"
                                 >
                                     Delete
                                 </button>

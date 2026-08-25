@@ -94,7 +94,19 @@ class ProjectController extends Controller
     {
         $this->authorize('update', $project);
 
-        $project->update($request->validated());
+        $project->update([
+            'company_id' => Auth::user()->company_id,
+
+            'client_id' => $request->client_id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'status' => $request->status,
+            'priority' => $request->priority,
+            'start_date' => $request->start_date,
+            'due_date' => $request->due_date,
+            'budget' => $request->budget,
+            'created_by' => Auth::id(),
+        ]);
 
         return redirect()
             ->route('projects.index')

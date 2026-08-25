@@ -44,12 +44,6 @@
                     placeholder="Enter lead name"
                 >
 
-                @error('name')
-                    <small class="error">
-                        {{ $message }}
-                    </small>
-                @enderror
-
             </div>
 
 

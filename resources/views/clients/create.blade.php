@@ -122,10 +122,6 @@
                         value="{{ old('name') }}"
                         placeholder="Enter client name"
                     >
-
-                    @error('name')
-                        <span class="error">{{ $message }}</span>
-                    @enderror
                 </div>
 
 
@@ -140,10 +136,10 @@
                         value="{{ old('email') }}"
                         placeholder="client@example.com"
                     >
-
+{{-- 
                     @error('email')
                         <span class="error">{{ $message }}</span>
-                    @enderror
+                    @enderror --}}
                 </div>
 
 
@@ -159,9 +155,9 @@
                         placeholder="Enter phone number"
                     >
 
-                    @error('phone')
+                    {{-- @error('phone')
                         <span class="error">{{ $message }}</span>
-                    @enderror
+                    @enderror --}}
                 </div>
 
 
@@ -177,9 +173,9 @@
                         placeholder="Client company"
                     >
 
-                    @error('company_name')
+                    {{-- @error('company_name')
                         <span class="error">{{ $message }}</span>
-                    @enderror
+                    @enderror --}}
                 </div>
 
 
@@ -202,9 +198,9 @@
 
                     </select>
 
-                    @error('status')
+                    {{-- @error('status')
                         <span class="error">{{ $message }}</span>
-                    @enderror
+                    @enderror --}}
 
                 </div>
 
@@ -221,9 +217,9 @@
                         placeholder="Enter client address"
                     >{{ old('address') }}</textarea>
 
-                    @error('address')
+                    {{-- @error('address')
                         <span class="error">{{ $message }}</span>
-                    @enderror
+                    @enderror --}}
 
                 </div>
 
@@ -240,9 +236,9 @@
                         placeholder="Additional notes"
                     >{{ old('notes') }}</textarea>
 
-                    @error('notes')
+                    {{-- @error('notes')
                         <span class="error">{{ $message }}</span>
-                    @enderror
+                    @enderror --}}
 
                 </div>
 

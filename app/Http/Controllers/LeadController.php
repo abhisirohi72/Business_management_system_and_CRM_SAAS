@@ -14,7 +14,9 @@ class LeadController extends Controller
 
     public function index()
     {
-        $leads = Lead::forCompany(Auth::user()->company_id)->latest()->get();
+        $leads = Lead::forCompany(Auth::user()->company_id)
+                    ->latest()
+                    ->paginate(10);
 
         return view('leads.index', compact('leads'));
     }

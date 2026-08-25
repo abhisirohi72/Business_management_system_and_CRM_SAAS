@@ -16,7 +16,7 @@
 
     <style>
 
-        * {
+        /* * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -28,18 +28,11 @@
             color: #111827;
         }
 
-        /* =========================
-           LAYOUT
-        ========================= */
 
         .app {
             min-height: 100vh;
             display: flex;
         }
-
-        /* =========================
-           SIDEBAR
-        ========================= */
 
         .sidebar {
             width: 250px;
@@ -102,10 +95,6 @@
             color: #ffffff;
         }
 
-        /* =========================
-           SIDEBAR FOOTER
-        ========================= */
-
         .sidebar-footer {
             padding: 15px;
             border-top: 1px solid #1f2937;
@@ -164,10 +153,6 @@
             color: #ffffff;
         }
 
-        /* =========================
-           MAIN CONTENT
-        ========================= */
-
         .main {
             margin-left: 250px;
             width: calc(100% - 250px);
@@ -197,10 +182,6 @@
         .content {
             padding: 30px;
         }
-
-        /* =========================
-           MOBILE
-        ========================= */
 
         @media (max-width: 800px) {
 
@@ -295,8 +276,301 @@
             color: #166534;
             border: 1px solid #bbf7d0;
         }
-    </style>
+        .validation-error {
+            background: #fff5f5;
+            border: 1px solid #fecaca;
+            border-left: 5px solid #ef4444;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
 
+        .validation-error-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b91c1c;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .error-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #fee2e2;
+            color: #dc2626;
+            border-radius: 50%;
+            font-weight: 700;
+        }
+
+        .validation-error ul {
+            margin: 0;
+            padding-left: 38px;
+            color: #991b1b;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .validation-error li {
+            margin-bottom: 2px;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 25px;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .add-btn {
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .add-btn:hover {
+            background: #4338ca;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th,
+        td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #6b7280;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #374151;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status.new {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status.contacted {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.qualified {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.lost {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status.converted {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px !important;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 700px) {
+
+            .page-header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .add-btn {
+                white-space: nowrap;
+            }
+
+        }
+        .edit-btn,
+        .delete-btn,
+        .view-btn {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            color: white;
+        }
+
+        .edit-btn {
+            background: #f59e0b;
+        }
+
+        .edit-btn:hover {
+            background: #d97706;
+        }
+
+        .view-btn {
+            background: #4f46e5;
+        }
+
+        .view-btn:hover {
+            background: #4338ca;
+        }
+
+        .edit-btn:hover {
+            background: #d97706;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+        
+        .pagination {
+            margin-top: 20px;
+        }
+        .priority-low {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .priority-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-high {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .priority-urgent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+            color: #6b7280;
+        }
+        .btn-primary {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top:5px;
+        }
+        .pagination-wrapper {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-wrapper nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-wrapper svg {
+    width: 18px;
+    height: 18px;
+}
+
+.pagination-wrapper a,
+.pagination-wrapper span {
+    padding: 8px 12px;
+    margin: 0 2px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.pagination-wrapper a {
+    color: #374151;
+    background: #fff;
+    border: 1px solid #d1d5db;
+}
+
+.pagination-wrapper a:hover {
+    background: #f3f4f6;
+}
+
+.pagination-wrapper span[aria-current="page"] span {
+    background: #2563eb;
+    color: #fff;
+    border: 1px solid #2563eb;
+}
+
+.pagination-wrapper span[aria-disabled="true"] span {
+    color: #9ca3af;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+} */
+    </style>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 
@@ -488,8 +762,11 @@
 
         <section class="content">
             @if ($errors->any())
-                <div style="background:#fee2e2; padding:15px; margin-bottom:20px;">
-                    <strong>Validation Errors:</strong>
+                <div class="validation-error">
+                    <div class="validation-error-title">
+                        <span class="error-icon">!</span>
+                        <span>Please fix the following errors:</span>
+                    </div>
 
                     <ul>
                         @foreach ($errors->all() as $error)

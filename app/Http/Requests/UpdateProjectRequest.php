@@ -23,6 +23,7 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'client_id' => ['required', 'exists:clients,id'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['nullable', 'string', 'max:100'],
@@ -30,7 +31,6 @@ class UpdateProjectRequest extends FormRequest
             'start_date' => ['nullable', 'date'],
             'due_date' => ['nullable', 'date'],
             'budget' => ['nullable', 'numeric', 'min:0'],
-            'created_by' => ['required', 'exists:users,id']
         ];
     }
 }

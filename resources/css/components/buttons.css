@@ -1,0 +1,96 @@
+/* =========================
+   ADD BUTTON
+========================= */
+
+.add-btn {
+    display: inline-block;
+    background: #4f46e5;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.add-btn:hover {
+    background: #4338ca;
+}
+
+/* =========================
+   PRIMARY BUTTON
+========================= */
+
+.btn-primary {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* =========================
+   TABLE ACTION BUTTONS
+========================= */
+
+.edit-btn,
+.delete-btn,
+.view-btn {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.edit-btn {
+    background: #f59e0b;
+}
+
+.edit-btn:hover {
+    background: #d97706;
+}
+
+.view-btn {
+    background: #4f46e5;
+}
+
+.view-btn:hover {
+    background: #4338ca;
+}
+
+.delete-btn {
+    background: #ef4444;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* =========================
+   TOPBAR LOGOUT
+========================= */
+
+.topbar .logout-btn {
+    border: none;
+    background: #ef4444;
+    color: #ffffff;
+    padding: 9px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.topbar .logout-btn:hover {
+    background: #dc2626;
+}

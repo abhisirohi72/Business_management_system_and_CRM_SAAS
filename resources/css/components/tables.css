@@ -1,0 +1,47 @@
+.table-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow-x: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+th,
+td {
+    padding: 15px 18px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+}
+
+th {
+    background: #f9fafb;
+    color: #6b7280;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+td {
+    color: #374151;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty {
+    text-align: center;
+    padding: 40px !important;
+    color: #9ca3af;
+}
+
+.empty-state {
+    padding: 50px 20px;
+    text-align: center;
+    color: #6b7280;
+}

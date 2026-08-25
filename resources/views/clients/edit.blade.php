@@ -2,91 +2,6 @@
 
 @section('content')
 <style>
-    .client-form-page {
-        padding: 30px;
-    }
-
-    .form-card {
-        background: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-group.full-width {
-        grid-column: 1 / -1;
-    }
-
-    .form-group label {
-        margin-bottom: 7px;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 10px 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 14px;
-        outline: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: #2563eb;
-    }
-
-    .error {
-        margin-top: 5px;
-        color: #dc2626;
-        font-size: 12px;
-    }
-
-    .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 25px;
-    }
-
-    .btn-secondary {
-        display: inline-block;
-        padding: 10px 16px;
-        background: #f3f4f6;
-        color: #374151;
-        border-radius: 7px;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn-primary {
-        padding: 10px 16px;
-        background: #2563eb;
-        color: #fff;
-        border: none;
-        border-radius: 7px;
-        cursor: pointer;
-    }
-
-    .page-header .client-header-actions {
-        display: flex;
-        gap: 10px;
-    }
 </style>
 
 <div class="client-form-page">
@@ -252,13 +167,6 @@
 
 
             <div class="form-actions">
-
-                <a
-                    href="{{ route('clients.index') }}"
-                    class="btn-secondary"
-                >
-                    Cancel
-                </a>
 
                 <button
                     type="submit"

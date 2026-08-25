@@ -1,0 +1,29 @@
+.app {
+    min-height: 100vh;
+    display: flex;
+}
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+}
+
+.content {
+    padding: 30px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+    .main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+
+    .content {
+        padding: 20px;
+    }
+}

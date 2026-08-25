@@ -11,6 +11,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login.store');
+
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+    
 Route::get("/register", function(){
     return view("auth.register");
 })->name("register");
@@ -49,13 +60,3 @@ Route::get("/dashboard", function(){
     return view("dashboard");
 })->middleware('auth')->name("dashboard");
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::post('/login', [AuthController::class, 'login'])
-    ->name('login.store');
-
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth')
-    ->name('logout');    
