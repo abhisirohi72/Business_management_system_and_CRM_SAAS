@@ -13,10 +13,14 @@ use App\Http\Controllers\ProjectController;
 
 Route::get('/debug-scheme', function (Request $request) {
     return response()->json([
+        'message' => 'DEBUG ROUTE WORKING',
         'secure' => $request->isSecure(),
         'scheme' => $request->getScheme(),
         'url' => $request->fullUrl(),
-        'forwarded_proto' => $request->header('X-Forwarded-Proto'),
+        'host' => $request->getHost(),
+        'x_forwarded_proto' => $request->header('X-Forwarded-Proto'),
+        'x_forwarded_host' => $request->header('X-Forwarded-Host'),
+        'x_forwarded_port' => $request->header('X-Forwarded-Port'),
     ]);
 });
 
