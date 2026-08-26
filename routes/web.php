@@ -25,8 +25,8 @@ Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request
 // })->name('login');
 
 Route::get('/', function () {
-    return response('ROOT WORKS', 200);
-})->name('login');
+    return response('ROOT OK', 200);
+});
 
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.store');
