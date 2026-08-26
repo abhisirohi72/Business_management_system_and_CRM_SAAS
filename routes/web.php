@@ -31,7 +31,7 @@ Route::get('/', function () {
         'scheme' => request()->getScheme(),
         'secure' => request()->isSecure(),
     ], 200);
-})->name('login');
+})->name('loginda');
 
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.store');
