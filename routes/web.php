@@ -20,18 +20,9 @@ Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request
     ]);
 });
 
-// Route::get('/', function () {
-//     return view('auth.login');
-// })->name('login');
-
 Route::get('/', function () {
-    return response()->json([
-        'message' => 'ROOT WORKS',
-        'url' => request()->fullUrl(),
-        'scheme' => request()->getScheme(),
-        'secure' => request()->isSecure(),
-    ], 200);
-})->name('loginda');
+    return view('auth.login');
+})->name('login');
 
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.store');
