@@ -18,9 +18,9 @@ Route::get('/debug-scheme', function (Request $request) {
         'scheme' => $request->getScheme(),
         'url' => $request->fullUrl(),
         'host' => $request->getHost(),
+        'app_url' => config('app.url'),
+        'app_env' => config('app.env'),
         'x_forwarded_proto' => $request->header('X-Forwarded-Proto'),
-        'x_forwarded_host' => $request->header('X-Forwarded-Host'),
-        'x_forwarded_port' => $request->header('X-Forwarded-Port'),
     ]);
 });
 
