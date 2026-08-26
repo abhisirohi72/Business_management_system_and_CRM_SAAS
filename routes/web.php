@@ -12,16 +12,7 @@ use App\Http\Controllers\ProjectController;
 // });
 
 Route::get('/debug-scheme', function (Request $request) {
-    return response()->json([
-        'message' => 'DEBUG ROUTE WORKING',
-        'secure' => $request->isSecure(),
-        'scheme' => $request->getScheme(),
-        'url' => $request->fullUrl(),
-        'host' => $request->getHost(),
-        'app_url' => config('app.url'),
-        'app_env' => config('app.env'),
-        'x_forwarded_proto' => $request->header('X-Forwarded-Proto'),
-    ]);
+    return 'HELLO FROM LARAVEL';
 });
 
 Route::get('/', function () {
