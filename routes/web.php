@@ -11,7 +11,7 @@ use App\Http\Controllers\ProjectController;
 //     return view('welcome');
 // });
 
-Route::get('/debug-scheme', function (Request $request) {
+Route::get('/debug-scheme', function () {
     return 'HELLO FROM LARAVEL';
 });
 
