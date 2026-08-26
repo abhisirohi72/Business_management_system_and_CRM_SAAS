@@ -11,8 +11,13 @@ use App\Http\Controllers\ProjectController;
 //     return view('welcome');
 // });
 
-Route::get('/debug-scheme', function () {
-    return 'HELLO FROM LARAVEL';
+Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request) {
+    return response()->json([
+        'secure' => $request->isSecure(),
+        'scheme' => $request->getScheme(),
+        'url' => $request->fullUrl(),
+        'forwarded_proto' => $request->header('X-Forwarded-Proto'),
+    ]);
 });
 
 Route::get('/', function () {
