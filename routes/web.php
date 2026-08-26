@@ -20,8 +20,12 @@ Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request
     ]);
 });
 
+// Route::get('/', function () {
+//     return view('auth.login');
+// })->name('login');
+
 Route::get('/', function () {
-    return view('auth.login');
+    return response('ROOT WORKS', 200);
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login'])
