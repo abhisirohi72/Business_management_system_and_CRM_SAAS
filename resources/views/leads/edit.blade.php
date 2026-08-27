@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
-@section('title','Create Lead')
+@section('title','Update Lead')
 
-@section('page-title','Create Lead')
-
+@section('page-title','Update Lead')
 
 @section('content')
-
 
 <div class="lead-form-page">
 
@@ -15,7 +13,7 @@
             <h1>Edit Lead</h1>
             <p>Update the details of an existing lead.</p>
         </div>
-        <div class="project-header-actions">
+        <div class="header-actions">
 
             <a href="{{ route('leads.index') }}" class="btn-secondary">
                 ← Back To Leads

@@ -6,19 +6,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 
-// Route::get('/', function () {
-//     return view('welcome');
+//Only for testing purposes, to check if the request is secure and what scheme is being used. This route should be removed in production.
+// Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request) {
+//     return response()->json([
+//         'secure' => $request->isSecure(),
+//         'scheme' => $request->getScheme(),
+//         'url' => $request->fullUrl(),
+//         'forwarded_proto' => $request->header('X-Forwarded-Proto'),
+//     ]);
 // });
-
-Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request) {
-    return response()->json([
-        'secure' => $request->isSecure(),
-        'scheme' => $request->getScheme(),
-        'url' => $request->fullUrl(),
-        'forwarded_proto' => $request->header('X-Forwarded-Proto'),
-    ]);
-});
 
 Route::get('/', function () {
     return view('auth.login');
@@ -63,6 +61,9 @@ Route::middleware('auth')->group(function () {
 
     //For Projects
     Route::resource('projects', ProjectController::class);
+
+    //For Tasks
+    Route::resource('tasks', TaskController::class);
 });
 
 Route::get("/dashboard", function(){

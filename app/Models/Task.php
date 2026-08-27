@@ -5,27 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Company;
-use App\Models\Client;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\Project;
+use App\Models\User;
+use App\Models\Company;
 
-class Project extends Model
+class Task extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
         'company_id',
-        'client_id',
-        'name',
+        'project_id',
+        'assigned_to',
+        'created_by',
+        'title',
         'description',
         'status',
         'priority',
         'start_date',
-        'due_date',
-        'budget',
-        'created_by'
+        'due_date'
     ];
 
     public function scopeForCompany(Builder $query, int $companyId)
@@ -33,23 +32,28 @@ class Project extends Model
         return $query->where('company_id', $companyId);
     }
 
+    public function scopeForProject(Builder $query, int $projectId)
+    {
+        return $query->where('project_id', $projectId);
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function client() : BelongsTo
+    public function project(): BelongsTo
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Project::class);
     }
 
-    public function createdBy() : BelongsTo
+    public function assignedTo(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function tasks() : HasMany
-    {
-        return $this->hasMany(Task::class);
     }
 }

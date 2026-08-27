@@ -7,42 +7,138 @@
 
 @section('content')
 
+<div class="leads-form-page">
 
-<div class="form-card">
+    <div class="page-header">
+        <div>
+            <h1>Add Lead</h1>
+            <p>Create a new potential customer.</p>
+        </div>
 
-    <div class="form-header">
+        <div class="header-actions">
 
-        <h2>
-            Add New Lead
-        </h2>
+            <a href="{{ route('leads.index') }}" class="btn-secondary">
+                ← Back to Leads
+            </a>
 
-        <p>
-            Create a new potential customer.
-        </p>
-
+        </div>
     </div>
 
+    {{-- Form Card --}}
+    <div class="form-card">
+        <form method="POST" action="{{ route('leads.store') }}">
 
-    <form method="POST" action="{{ route('leads.store') }}">
-
-        @csrf
-
-
-        <div class="form-grid">
+            @csrf
 
 
-            <div class="form-group">
+            <div class="form-grid">
 
-                <label>
-                    Name *
-                </label>
 
-                <input
-                    type="text"
-                    name="name"
-                    value="{{ old('name') }}"
-                    placeholder="Enter lead name"
-                >
+                <div class="form-group">
+
+                    <label>
+                        Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ old('name') }}"
+                        placeholder="Enter lead name"
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        value="{{ old('email') }}"
+                        placeholder="Enter email"
+                    >
+
+                    @error('email')
+                        <small class="error">
+                            {{ $message }}
+                        </small>
+                    @enderror
+
+                </div>
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        value="{{ old('phone') }}"
+                        placeholder="Enter phone"
+                    >
+
+                </div>
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Company Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="company_name"
+                        value="{{ old('company_name') }}"
+                        placeholder="Company name"
+                    >
+
+                </div>
+
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Source
+                    </label>
+
+                    <select name="source">
+
+                        <option value="">
+                            Select Source
+                        </option>
+
+                        <option value="Website">
+                            Website
+                        </option>
+
+                        <option value="Referral">
+                            Referral
+                        </option>
+
+                        <option value="Social Media">
+                            Social Media
+                        </option>
+
+                    </select>
+
+                </div>
+
 
             </div>
 
@@ -51,248 +147,28 @@
             <div class="form-group">
 
                 <label>
-                    Email
+                    Notes
                 </label>
 
-                <input
-                    type="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    placeholder="Enter email"
-                >
-
-                @error('email')
-                    <small class="error">
-                        {{ $message }}
-                    </small>
-                @enderror
+                <textarea
+                    name="notes"
+                    rows="4"
+                    placeholder="Add notes..."
+                >{{ old('notes') }}</textarea>
 
             </div>
 
 
 
+            <button class="save-btn">
 
-            <div class="form-group">
+                Save Lead
 
-                <label>
-                    Phone
-                </label>
-
-                <input
-                    type="text"
-                    name="phone"
-                    value="{{ old('phone') }}"
-                    placeholder="Enter phone"
-                >
-
-            </div>
+            </button>
 
 
-
-
-            <div class="form-group">
-
-                <label>
-                    Company Name
-                </label>
-
-                <input
-                    type="text"
-                    name="company_name"
-                    value="{{ old('company_name') }}"
-                    placeholder="Company name"
-                >
-
-            </div>
-
-
-
-
-            <div class="form-group">
-
-                <label>
-                    Source
-                </label>
-
-                <select name="source">
-
-                    <option value="">
-                        Select Source
-                    </option>
-
-                    <option value="Website">
-                        Website
-                    </option>
-
-                    <option value="Referral">
-                        Referral
-                    </option>
-
-                    <option value="Social Media">
-                        Social Media
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-
-
-        <div class="form-group">
-
-            <label>
-                Notes
-            </label>
-
-            <textarea
-                name="notes"
-                rows="4"
-                placeholder="Add notes..."
-            >{{ old('notes') }}</textarea>
-
-        </div>
-
-
-
-        <button class="save-btn">
-
-            Save Lead
-
-        </button>
-
-
-    </form>
-
+        </form>
+    </div>    
 
 </div>
-
-
-
-<style>
-
-.form-card {
-
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,.05);
-
-}
-
-
-.form-header {
-
-    margin-bottom:25px;
-
-}
-
-
-.form-header h2 {
-
-    font-size:22px;
-
-}
-
-
-.form-header p {
-
-    color:#6b7280;
-    font-size:14px;
-
-}
-
-
-.form-grid {
-
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-
-}
-
-
-.form-group {
-
-    margin-bottom:20px;
-
-}
-
-
-label {
-
-    display:block;
-    font-size:13px;
-    font-weight:600;
-    margin-bottom:7px;
-
-}
-
-
-input,
-select,
-textarea {
-
-    width:100%;
-    padding:12px;
-    border:1px solid #d1d5db;
-    border-radius:8px;
-    outline:none;
-
-}
-
-
-input:focus,
-select:focus,
-textarea:focus {
-
-    border-color:#4f46e5;
-
-}
-
-
-.error {
-
-    color:#dc2626;
-    font-size:12px;
-
-}
-
-
-.save-btn {
-
-    background:#4f46e5;
-    color:white;
-    border:none;
-    padding:12px 25px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-
-}
-
-
-.save-btn:hover {
-
-    background:#4338ca;
-
-}
-
-
-@media(max-width:700px){
-
-    .form-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-}
-
-
-</style>
-
-
 @endsection

@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('title','Update Client')
+
+@section('page-title','Update Client')
+
 @section('content')
-<style>
-</style>
 
 <div class="client-form-page">
 
