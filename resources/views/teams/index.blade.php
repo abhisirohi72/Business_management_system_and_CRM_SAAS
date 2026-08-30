@@ -1,31 +1,31 @@
 @extends('layouts.app')
 
-@section('title','View Task')
+@section('title','View team')
 
-@section('page-title','View Task')
+@section('page-title','View team')
 
 @section('content')
 
-<div class="tasks-page">
+<div class="teams-page">
 
     {{-- Header --}}
     <div class="page-header">
 
         <div>
-            <h1>Tasks</h1>
-            <p>Manage all your company tasks.</p>
+            <h1>Teams</h1>
+            <p>Manage all your company teams.</p>
         </div>
 
-        <a href="{{ route('tasks.create') }}" class="add-btn">
-            + Add Task
+        <a href="{{ route('teams.create') }}" class="add-btn">
+            + Add team
         </a>
 
     </div>
 
-    {{-- Tasks Table --}}
+    {{-- teams Table --}}
     <div class="table-card">
 
-        @if($tasks->count())
+        @if($teams->count())
 
             <table>
 
@@ -46,7 +46,7 @@
 
                 <tbody>
 
-                    @foreach($tasks as $task)
+                    @foreach($teams as $team)
 
                         <tr>
 
@@ -56,72 +56,72 @@
 
                             <td>
                                 <strong>
-                                    {{ $task->company->name ?? '-' }}
+                                    {{ $team->company->name ?? '-' }}
                                 </strong>
                             </td>
 
                             <td>
                                 <strong>
-                                    {{ $task->project->name ?? '-' }}
+                                    {{ $team->project->name ?? '-' }}
                                 </strong>
                             </td>
 
                             <td>
-                                {{ $task->assignedTo->email ?? '-' }}
+                                {{ $team->assignedTo->email ?? '-' }}
                             </td>
 
                             <td>
-                                {{ $task->title ?? '-' }}
+                                {{ $team->title ?? '-' }}
                             </td>
 
                             <td>
 
-                                <span class="badge status-{{ str_replace('_', '-', $task->status) }}">
-                                    {{ ucwords(str_replace('_', ' ', $task->status)) }}
+                                <span class="badge status-{{ str_replace('_', '-', $team->status) }}">
+                                    {{ ucwords(str_replace('_', ' ', $team->status)) }}
                                 </span>
 
                             </td>
 
                             <td>
 
-                                <span class="badge priority-{{ $task->priority }}">
-                                    {{ ucfirst($task->priority) }}
+                                <span class="badge priority-{{ $team->priority }}">
+                                    {{ ucfirst($team->priority) }}
                                 </span>
 
                             </td>
 
                             <td>
-                                {{ $task->start_date
-                                    ? \Carbon\Carbon::parse($task->start_date)->format('d M Y')
+                                {{ $team->start_date
+                                    ? \Carbon\Carbon::parse($team->start_date)->format('d M Y')
                                     : '-' }}
                             </td>
 
                             <td>
-                                {{ $task->due_date
-                                    ? \Carbon\Carbon::parse($task->due_date)->format('d M Y')
+                                {{ $team->due_date
+                                    ? \Carbon\Carbon::parse($team->due_date)->format('d M Y')
                                     : '-' }}
                             </td>
 
 
                             <td class="actions">
                                     <a
-                                        href="{{ route('tasks.show', $task) }}"
+                                        href="{{ route('teams.show', $team) }}"
                                         class="view-btn"
                                     >
                                         View
                                     </a>
                                     <a
-                                        href="{{ route('tasks.edit', $task) }}"
+                                        href="{{ route('teams.edit', $team) }}"
                                         class="edit-btn mt-1"
                                     >
                                         Edit
                                     </a>
 
                                     <form
-                                        action="{{ route('tasks.destroy', $task) }}"
+                                        action="{{ route('teams.destroy', $team) }}"
                                         method="POST"
                                         style="display:inline;"
-                                        onsubmit="return confirm('Are you sure you want to delete this task?');"
+                                        onsubmit="return confirm('Are you sure you want to delete this team?');"
                                     >
 
                                         @csrf
@@ -145,26 +145,26 @@
                 </tbody>
 
             </table>
-            @if($tasks->hasPages())
+            @if($teams->hasPages())
                 <div style="padding: 20px;">
-                    {{ $tasks->links() }}
+                    {{ $teams->links() }}
                 </div>
             @endif
         @else
 
             <div class="empty-state">
 
-                <h3>No Tasks Found</h3>
+                <h3>No teams Found</h3>
 
                 <p>
-                    You haven't created any tasks yet.
+                    You haven't created any teams yet.
                 </p>
 
                 <a
-                    href="{{ route('tasks.create') }}"
+                    href="{{ route('teams.create') }}"
                     class="btn-primary"
                 >
-                    + Create First Task
+                    + Create First team
                 </a>
 
             </div>

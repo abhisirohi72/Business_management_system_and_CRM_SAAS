@@ -2,30 +2,30 @@
 
 namespace App\Policies;
 
-use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class LeadPolicy
+class TeamPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->role?->slugame === 'super_admin'
+        return $user->role?->slug === 'super_admin'
             || $user->company_id !== null;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Lead $lead): bool
+    public function view(User $user, User $model): bool
     {
         if ($user->role?->slug === 'super_admin') {
             return true;
         }
-        return $user->company_id===$lead->company_id;
+
+        return $user->company_id === $model->company_id;
     }
 
     /**
@@ -33,55 +33,55 @@ class LeadPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role?->slugame === 'super_admin'
+        return $user->role?->slug === 'super_admin'
             || $user->company_id !== null;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Lead $lead): bool
+    public function update(User $user, User $model): bool
     {
         if ($user->role?->slug === 'super_admin') {
             return true;
         }
 
-        return $user->company_id === $lead->company_id;
+        return $user->company_id === $model->company_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Lead $lead): bool
+    public function delete(User $user, User $model): bool
     {
         if ($user->role?->slug === 'super_admin') {
             return true;
         }
 
-        return $user->company_id === $lead->company_id;
+        return $user->company_id === $model->company_id;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Lead $lead): bool
+    public function restore(User $user, User $model): bool
     {
         if ($user->role?->slug === 'super_admin') {
             return true;
         }
 
-        return $user->company_id === $lead->company_id;
+        return $user->company_id === $model->company_id;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Lead $lead): bool
+    public function forceDelete(User $user, User $model): bool
     {
         if ($user->role?->slug === 'super_admin') {
             return true;
         }
 
-        return $user->company_id === $lead->company_id;
+        return $user->company_id === $model->company_id;
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TeamController;
 
 //Only for testing purposes, to check if the request is secure and what scheme is being used. This route should be removed in production.
 // Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request) {
@@ -64,6 +65,9 @@ Route::middleware('auth')->group(function () {
 
     //For Tasks
     Route::resource('tasks', TaskController::class);
+
+    //For Teams
+    Route::resource('teams', TeamController::class);
 });
 
 Route::get("/dashboard", function(){

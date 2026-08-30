@@ -19,9 +19,10 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::forCompany(Auth::user()->company_id)
+            ->with('company', 'project', 'assignedTo')
             ->latest()
             ->paginate(10);
-        
+
         return view('tasks.index', compact('tasks'));
     }
 
@@ -41,11 +42,16 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
         $this->authorize('create', Task::class);
 
-        $task = Task::create($request->validated());
+        $data = $request->validated();
+        // echo Auth::user()->company_id;dd();
+        $task = Task::create($data + [
+            'company_id' => Auth::user()->company_id,
+            'created_by' => Auth::id(),
+        ]);
 
         return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
@@ -53,32 +59,63 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Task $task)
     {
-        //
+        $this->authorize('view', $task);
+        
+        $task->load('company', 'project', 'assignedTo');
+        
+        return view("tasks.show", ['task'=> $task]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Task $task)
     {
-        //
+        $this->authorize('update', $task);
+
+        $projects = Project::forCompany(Auth::user()->company_id)->get();
+
+        $users = Auth::user()->company->users;
+
+        return view('tasks.edit', ['projects'=>$projects, 'users'=>$users, 'task'=>$task]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $this->authorize('update', $task);
+
+        $task->update([ 
+            'project_id' => $request->project_id,
+            'assigned_to' => $request->assigned_to,
+            'title' => $request->title,
+            'description' => $request->description,
+            'status' => $request->status,
+            'priority' => $request->priority,
+            'start_date' => $request->start_date,
+            'due_date' => $request->due_date,
+        ]);
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Tasks Updated Successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        //
+        $this->authorize('delete', $task);
+
+        $task->delete();
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Tasks Deleted Successfully.');
     }
 }

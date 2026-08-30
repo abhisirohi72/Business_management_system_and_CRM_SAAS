@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class Role extends Model
 {
@@ -13,6 +14,11 @@ class Role extends Model
         'name',
         'slug',
     ];
+
+    public function scopeWithoutSuperAdmin(Builder $query)
+    {
+        return $query->where("slug", "!=", "super_admin");
+    }
 
     public function company() : BelongsTo
     {

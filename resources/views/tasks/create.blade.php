@@ -89,9 +89,9 @@
 
                     <input
                         type="text"
-                        id="name"
-                        name="name"
-                        value="{{ old('name') }}"
+                        id="title"
+                        name="title"
+                        value="{{ old('title') }}"
                         placeholder="Enter task name"
                     >
                 </div>

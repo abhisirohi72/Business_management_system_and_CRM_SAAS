@@ -13,7 +13,8 @@ class TaskPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->company_id !== null;
+        return $user->role?->slug === 'super_admin'
+            || $user->company_id !== null;
     }
 
     /**
@@ -21,6 +22,10 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
+        if ($user->role?->slug === 'super_admin') {
+            return true;
+        }
+        
         return $user->company_id === $task->company_id;
     }
 
@@ -29,7 +34,8 @@ class TaskPolicy
      */
     public function create(User $user): bool
     {
-        return $user->company_id !== null;
+        return $user->role?->slug === 'super_admin'
+            || $user->company_id !== null;
     }
 
     /**
@@ -37,6 +43,10 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
+        if ($user->role?->slug === 'super_admin') {
+            return true;
+        }
+
         return $user->company_id === $task->company_id;
     }
 
@@ -45,6 +55,10 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
+        if ($user->role?->slug === 'super_admin') {
+            return true;
+        }
+
         return $user->company_id === $task->company_id;
     }
 
@@ -53,6 +67,10 @@ class TaskPolicy
      */
     public function restore(User $user, Task $task): bool
     {
+        if ($user->role?->slug === 'super_admin') {
+            return true;
+        }
+
         return $user->company_id === $task->company_id;
     }
 
@@ -61,6 +79,10 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task): bool
     {
+        if ($user->role?->slug === 'super_admin') {
+            return true;
+        }
+
         return $user->company_id === $task->company_id;
     }
 }

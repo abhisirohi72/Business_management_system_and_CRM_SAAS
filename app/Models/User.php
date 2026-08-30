@@ -13,6 +13,7 @@ use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
 #[Fillable(['name', 'email', 'password', 'company_id', 'role_id'])]
 #[Hidden(['password', 'remember_token'])]
@@ -32,6 +33,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function scopeForCompany(Builder $query, int $companyId)
+    {
+        return $query->where('company_id', $companyId);
+    }
+
+    public function scopeWithoutSuperAdmin(Builder $query)
+    {
+        return $query->whereHas('role', function ($q) {
+            $q->where('slug', '!=', 'super_admin');
+        });
     }
 
     public function company(): BelongsTo

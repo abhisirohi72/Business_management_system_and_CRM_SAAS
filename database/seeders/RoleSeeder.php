@@ -20,6 +20,10 @@ class RoleSeeder extends Seeder
 
             $roles = [
                 [
+                    'name' => 'Super Admin',
+                    'slug' => 'super_admin',
+                ],
+                [
                     'name' => 'Owner',
                     'slug' => 'owner',
                 ],

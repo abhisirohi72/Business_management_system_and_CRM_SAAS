@@ -77,7 +77,7 @@
                 <span>Tasks</span>
             </a>
 
-            <a href="#" class="nav-link">
+            <a href="{{ route('teams.index') }}" class="nav-link {{ request()->routeIs('teams.*')  ? 'active':'' }}">
                 👥
                 <span>Team</span>
             </a>

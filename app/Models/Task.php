@@ -27,6 +27,11 @@ class Task extends Model
         'due_date'
     ];
 
+    protected $casts = [
+        'start_date'=>'date',
+        'due_date'=>'date'
+    ];
+
     public function scopeForCompany(Builder $query, int $companyId)
     {
         return $query->where('company_id', $companyId);
