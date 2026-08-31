@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title','View team')
+@section('title','View Team Members')
 
-@section('page-title','View team')
+@section('page-title','View Team Members')
 
 @section('content')
 
@@ -12,12 +12,12 @@
     <div class="page-header">
 
         <div>
-            <h1>Teams</h1>
+            <h1>Team Members</h1>
             <p>Manage all your company teams.</p>
         </div>
 
         <a href="{{ route('teams.create') }}" class="add-btn">
-            + Add team
+            + Add Team Member
         </a>
 
     </div>
@@ -32,14 +32,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Company Name</th>
-                        <th>Project Name</th>
-                        <th>Assigned To</th>
-                        <th>Title</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                        <th>Start Date</th>
-                        <th>Due Date</th>
+                        <th>Name</th>
+                        <th>Company Name</th>                        
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Created At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -56,52 +53,31 @@
 
                             <td>
                                 <strong>
-                                    {{ $team->company->name ?? '-' }}
+                                    {{ $team->name ?? '-' }}
                                 </strong>
                             </td>
 
                             <td>
                                 <strong>
-                                    {{ $team->project->name ?? '-' }}
+                                    {{ $team->company->name ?? '-' }}
                                 </strong>
                             </td>
 
+                            <td> 
+                                <strong>
+                                    {{ $team->role->name ?? '-' }}
+                                </strong>
+                            </td>                            
+
                             <td>
-                                {{ $team->assignedTo->email ?? '-' }}
+                                {{ $team->email ?? '-' }}
                             </td>
 
                             <td>
-                                {{ $team->title ?? '-' }}
-                            </td>
-
-                            <td>
-
-                                <span class="badge status-{{ str_replace('_', '-', $team->status) }}">
-                                    {{ ucwords(str_replace('_', ' ', $team->status)) }}
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <span class="badge priority-{{ $team->priority }}">
-                                    {{ ucfirst($team->priority) }}
-                                </span>
-
-                            </td>
-
-                            <td>
-                                {{ $team->start_date
-                                    ? \Carbon\Carbon::parse($team->start_date)->format('d M Y')
+                                {{ $team->created_at
+                                    ? \Carbon\Carbon::parse($team->created_at)->format('d M Y')
                                     : '-' }}
                             </td>
-
-                            <td>
-                                {{ $team->due_date
-                                    ? \Carbon\Carbon::parse($team->due_date)->format('d M Y')
-                                    : '-' }}
-                            </td>
-
 
                             <td class="actions">
                                     <a

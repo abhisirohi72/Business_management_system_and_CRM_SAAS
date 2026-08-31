@@ -42,8 +42,11 @@ class User extends Authenticatable
 
     public function scopeWithoutSuperAdmin(Builder $query)
     {
-        return $query->whereHas('role', function ($q) {
-            $q->where('slug', '!=', 'super_admin');
+        return $query->where(function ($query) {
+            $query->whereNull('role_id')
+                ->orWhereHas('role', function ($q) {
+                    $q->where('slug', '!=', 'super_admin');
+                });
         });
     }
 

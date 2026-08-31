@@ -17,7 +17,17 @@ class Role extends Model
 
     public function scopeWithoutSuperAdmin(Builder $query)
     {
-        return $query->where("slug", "!=", "super_admin");
+        return $query->where(function ($query) {
+            $query->whereNull('role_id')
+                ->orWhereHas('role', function ($q) {
+                    $q->where('slug', '!=', 'super_admin');
+                });
+        });
+    }
+
+    public function scopeForCompany(Builder $query, int $companyId)
+    {
+        return $query->where('company_id', $companyId);
     }
 
     public function company() : BelongsTo
