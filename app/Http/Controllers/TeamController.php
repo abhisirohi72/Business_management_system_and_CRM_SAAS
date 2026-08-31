@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\UpdateTeamRequest;
 use App\Repositories\TeamRepository;
 use App\Models\Role;
 use App\Models\Task;
@@ -88,32 +89,62 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $team)
     {
-        //
+        $this->authorize('view', $team);
+
+        $team->load('role', 'company');
+
+        return view('teams.show', ['user'=>$team]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $team)
     {
-        //
+        $this->authorize("update", $team);
+
+        $roles = Role::withoutSuperAdmin()->forCompany(Auth::user()->company_id)->get();
+        
+        return view("teams.edit", ['roles'=>$roles, 'user'=>$team]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTeamRequest $request, User $team)
     {
-        //
+        $this->authorize("update", $team);
+        $data= $request->validated();
+        $update_data = $this->teamRepository->updateTeamMember($team, $data);
+
+        if($update_data){
+            return redirect()
+                    ->route('teams.index')
+                    ->with('success', 'Record has been successfully updated.');
+        }
+        return redirect()
+                    ->route('teams.index')
+                    ->with('error', 'There is some issue in updating.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $team)
     {
-        //
+        $this->authorize('delete', $team);
+
+        $delete = $this->teamRepository->deleteTeamMember($team);
+        if($delete){
+            return redirect()
+                ->route('teams.index')
+                ->with('success', 'Successfully Deleted.');
+        }
+
+        return redirect()
+                ->route('teams.index')
+                ->with('error', 'There is some issue on deleting.');
     }
 }

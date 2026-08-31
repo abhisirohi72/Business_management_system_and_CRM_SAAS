@@ -14,7 +14,7 @@ class UpdateTeamRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can("update", $this->route('user'));
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class UpdateTeamRequest extends FormRequest
                 'required', 
                 'email', 
                 'max:255', 
-                Rule::unique('users', 'email')->ignore($this->route('user')->id),
+                Rule::unique('users', 'email')->ignore($this->route('team')->id),
             ],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'role_id' => [

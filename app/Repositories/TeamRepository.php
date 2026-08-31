@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class TeamRepository
 {
@@ -15,6 +16,17 @@ class TeamRepository
 
     public function addingTeamMember(array $data){
         return User::create($data);
+    }
+
+    public function updateTeamMember($team, array $data){
+        if(empty($data['password'])){
+            unset($data['password']);
+        }
+        return $team->update($data);
+    }
+
+    public function deleteTeamMember($team){
+        return $team->delete();
     }
 }
 ?>
