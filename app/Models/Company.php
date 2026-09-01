@@ -39,4 +39,9 @@ class Company extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function quotations(): HasMany
+    {
+        return $this->hasMany(Quotation::class);
+    }
 }

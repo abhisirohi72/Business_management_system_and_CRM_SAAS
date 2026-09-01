@@ -6,26 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Company;
-use App\Models\Client;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
-class Project extends Model
+class Quotation extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
         'company_id',
         'client_id',
-        'name',
-        'description',
+        'project_id',
+        'quotation_number',
+        'quotation_date',
+        'valid_until',
         'status',
-        'priority',
-        'start_date',
-        'due_date',
-        'budget',
-        'created_by'
+        'subtotal',
+        'discount',
+        'tax',
+        'total',
+        'notes',
+        'terms',
+        'created_by',
     ];
 
     public function scopeForCompany(Builder $query, int $companyId)
@@ -38,23 +39,23 @@ class Project extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function client() : BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function createdBy() : BelongsTo
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function tasks() : HasMany
+    public function items(): HasMany
     {
-        return $this->hasMany(Task::class);
-    }
-
-    public function quotations(): HasMany
-    {
-        return $this->hasMany(Quotation::class);
+        return $this->hasMany(QuotationItem::class);
     }
 }

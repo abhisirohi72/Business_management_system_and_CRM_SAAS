@@ -75,4 +75,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class, 'assigned_to');
     }
+
+    public function createdQuotations(): HasMany
+    {
+        return $this->hasMany(Quotation::class, 'created_by');
+    }
 }

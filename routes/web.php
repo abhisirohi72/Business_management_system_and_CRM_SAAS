@@ -8,6 +8,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\QuotationController;
 
 //Only for testing purposes, to check if the request is secure and what scheme is being used. This route should be removed in production.
 // Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request) {
@@ -68,6 +69,9 @@ Route::middleware('auth')->group(function () {
 
     //For Teams
     Route::resource('teams', TeamController::class);
+
+    //For Quotations
+    Route::resource('quotations', QuotationController::class);
 });
 
 Route::get("/dashboard", function(){

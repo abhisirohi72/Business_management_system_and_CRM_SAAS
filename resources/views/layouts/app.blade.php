@@ -87,7 +87,7 @@
                 Finance
             </div>
 
-            <a href="#" class="nav-link">
+            <a href="{{ route('quotations.index') }}" class="nav-link {{ request()->routeIs('quotations.*') ? 'active':'' }}">
                 📝
                 <span>Quotations</span>
             </a>
