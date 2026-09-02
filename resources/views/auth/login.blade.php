@@ -271,7 +271,6 @@
                     type="email"
                     id="email"
                     name="email"
-                    value="{{ old('email') }}"
                     required
                     value="abhisirohi72@gmail.com"
                 >
