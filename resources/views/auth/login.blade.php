@@ -272,7 +272,6 @@
                     id="email"
                     name="email"
                     value="{{ old('email') }}"
-                    placeholder="you@example.com"
                     required
                     value="abhisirohi72@gmail.com"
                 >
@@ -290,7 +289,6 @@
                     type="password"
                     id="password"
                     name="password"
-                    placeholder="Enter your password"
                     required
                     value="password123"
                 >
