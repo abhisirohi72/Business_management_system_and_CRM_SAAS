@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login - BizFlow AI</title>
+    <title>Login - VayuShek AI</title>
 
     <style>
         * {
@@ -198,7 +198,7 @@
     <div class="brand-section">
 
         <div class="logo">
-            Biz<span>Flow</span> AI
+            Vayu<span>Shek</span> AI
         </div>
 
         <h1>

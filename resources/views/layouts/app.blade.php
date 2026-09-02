@@ -11,7 +11,7 @@
     >
 
     <title>
-        @yield('title', 'Dashboard') - BizFlow AI
+        @yield('title', 'Dashboard') - VayuShek AI
     </title>
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -29,7 +29,7 @@
     <aside class="sidebar">
 
         <div class="logo">
-            Biz<span>Flow</span> AI
+            Vayu<span>Shek</span> AI
         </div>
 
 
