@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Company extends Model
 {
@@ -19,6 +20,13 @@ class Company extends Model
         'address',
         'status',
     ];
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => strtolower($value) === 'webfintech' ? 'VayuShek' : $value,
+        );
+    }
 
     public function users() : HasMany
     {
