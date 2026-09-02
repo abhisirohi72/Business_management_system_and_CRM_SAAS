@@ -9,7 +9,7 @@ class AIService {
     public static function getQuotationSummary(Quotation $quotation) {
         $payload = [
             'client_name' => $quotation->client->name ?? 'Unknown Client',
-            'total' => $quotation->total_amount ?? 0,
+            'total' => $quotation->total ?? 0,
             'items' => $quotation->items ?? [],
             'due_date' => $quotation->valid_until ?? 'Not set',
             'status' => $quotation->status ?? 'draft'
