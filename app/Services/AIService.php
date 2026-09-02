@@ -7,10 +7,15 @@ use Illuminate\Support\Facades\Http;
 
 class AIService {
     public static function getQuotationSummary(Quotation $quotation) {
+        $itemNames = [];
+        foreach($quotation->items as $it) {
+            $itemNames[] = $it['item_name'] ?? $it->item_name ?? 'Item';
+        }
+
         $payload = [
             'client_name' => $quotation->client->name ?? 'Unknown Client',
             'total' => $quotation->total ?? 0,
-            'items' => $quotation->items ?? [],
+            'items' => $itemNames,
             'due_date' => $quotation->valid_until ?? 'Not set',
             'status' => $quotation->status ?? 'draft'
         ];
@@ -20,6 +25,7 @@ class AIService {
             // does not expose the variable (for example, after config caching).
             $baseUrl = env('AI_SERVICE_URL') ?: getenv('AI_SERVICE_URL') ?: 'http://localhost:8001';
             $baseUrl = rtrim($baseUrl, '/'); 
+
             $response = Http::timeout(60)->post($baseUrl . '/summarize-quotation', $payload);
             return $response->json()['summary'] ?? 'AI summary not available';
         } catch (\Exception $e) {

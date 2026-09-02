@@ -567,15 +567,147 @@
     @endif
     
     {{-- AI Summary --}}
-    <button onclick="getAISummary({{ $quotation->id }})">🤖 AI Summary</button>
-    <div id="ai-box"></div>
+    {{-- <button onclick="getAISummary({{ $quotation->id }})">🤖 AI Summary</button>
+    <div id="ai-box"></div> --}}
+
+    <style>
+.ai-btn {
+    background: linear-gradient(90deg, #7c3aed, #4f46e5);
+    color: white;
+    padding: 11px 22px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(124,58,237,0.3);
+    transition: 0.2s;
+}
+.ai-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(124,58,237,0.4); }
+.ai-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.ai-box {
+    margin-top: 20px;
+    background: white;
+    border: 1px solid #ede9fe;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.ai-box.hidden { display: none; }
+.ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.ai-icon-circle {
+    width: 32px; height: 32px;
+    background: #ede9fe; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+.ai-live {
+    margin-left: auto; font-size: 11px;
+    background: #dcfce7; color: #15803d;
+    padding: 3px 9px; border-radius: 20px; font-weight: 600;
+}
+.ai-card { padding: 12px 14px; border-radius: 12px; margin-bottom: 10px; line-height: 1.5; }
+.ai-card-gray { background: #f9fafb; }
+.ai-card-amber { background: #fffbeb; border: 1px solid #fde68a; }
+.ai-card-indigo { background: #eef2ff; border: 1px solid #c7d2fe; }
+</style>
+
+<button id="aiBtn" class="ai-btn" onclick="getAiSummary()">
+    <span id="aiIcon">🤖</span>
+    <span id="aiText">AI Summary</span>
+</button>
+
+<div id="aiSummaryBox" class="ai-box hidden">
+    <div class="ai-header">
+        <div class="ai-icon-circle">✨</div>
+        <h3 style="margin:0; font-weight:700; color:#1f2937;">AI Insights</h3>
+        <span class="ai-live">Live</span>
+    </div>
+    <div id="aiContent" style="font-size: 14px;"></div>
+</div>
 
 </div>
+<style>
+    .ai-btn {
+    background: linear-gradient(90deg, #7c3aed, #4f46e5);
+    color: white;
+    padding: 11px 22px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(124,58,237,0.3);
+    transition: 0.2s;
+}
+.ai-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(124,58,237,0.4); }
+.ai-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.ai-box {
+    margin-top: 20px;
+    background: white;
+    border: 1px solid #ede9fe;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.ai-box.hidden { display: none; }
+.ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.ai-icon-circle {
+    width: 32px; height: 32px;
+    background: #ede9fe; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+.ai-live {
+    margin-left: auto; font-size: 11px;
+    background: #dcfce7; color: #15803d;
+    padding: 3px 9px; border-radius: 20px; font-weight: 600;
+}
+.ai-card { padding: 12px 14px; border-radius: 12px; margin-bottom: 10px; line-height: 1.5; }
+.ai-card-gray { background: #f9fafb; }
+.ai-card-amber { background: #fffbeb; border: 1px solid #fde68a; }
+.ai-card-indigo { background: #eef2ff; border: 1px solid #c7d2fe; }
+</style>
 <script>
-function getAISummary(id){
-  fetch(`/quotations/${id}/ai-summary`)
- .then(res=>res.json())
- .then(data=>{ document.getElementById('ai-box').innerText = data.summary })
+async function getAiSummary() {
+    const btn = document.getElementById('aiBtn');
+    const text = document.getElementById('aiText');
+    const icon = document.getElementById('aiIcon');
+    const box = document.getElementById('aiSummaryBox');
+    const content = document.getElementById('aiContent');
+
+    text.innerText = 'Analyzing...';
+    icon.innerText = '⏳';
+    btn.disabled = true;
+
+    try {
+        const res = await fetch("{{ route('quotation.ai-summary', $quotation->id) }}");
+        const data = await res.json();
+        const parsed = typeof data.summary === 'string' ? JSON.parse(data.summary) : data.summary;
+
+        content.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="background:${parsed.verdict.includes('GO')? '#dcfce7' : '#fef3c7'}; color:${parsed.verdict.includes('GO')? '#166534' : '#92400e'}; padding:5px 12px; border-radius:20px; font-weight:700; font-size:13px;">${parsed.verdict} • Score ${parsed.score}/100</span>
+                <span style="font-weight:700; color:#4f46e5;">${parsed.amount}</span>
+            </div>
+            <div class="ai-card ai-card-gray">📝 ${parsed.summary}</div>
+            <div class="ai-card ai-card-amber">⚠️ <b>Risk:</b> ${parsed.risk}</div>
+            <div class="ai-card" style="background:#f0fdf4; border:1px solid #bbf7d0;">💡 <b>Opportunity:</b> ${parsed.opportunity}</div>
+            <div class="ai-card ai-card-indigo">🎯 <b>Next Action:</b> ${parsed.next_action}</div>
+        `;
+        box.classList.remove('hidden');
+    } catch(e) {
+        content.innerHTML = `<div style="color:red;">Error: ${e.message}</div>`;
+        box.classList.remove('hidden');
+    } finally {
+        text.innerText = 'AI Summary';
+        icon.innerText = '🤖';
+        btn.disabled = false;
+    }
 }
 </script>
 @endsection
