@@ -6,7 +6,14 @@ from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
-app = FastAPI()
+app = FastAPI(
+    title="BixFlow AI Analyst",
+    description="""
+    Demo Login:
+    Email: abhisirohi72@gmail.com
+    Password: password123
+    """
+)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
