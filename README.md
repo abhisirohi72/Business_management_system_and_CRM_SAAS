@@ -222,3 +222,8 @@ This project is proprietary software. All rights reserved.
 **Abhishek Sirohi**
 📧 abhisirohi72@gmail.com
 🔗 [GitHub](https://github.com/abhisirohi72)
+
+## Demo Credentials
+Email: abhisirohi72@gmail.com
+Password: password123
+Live: https://bixflow-ai-service.onrender.com
