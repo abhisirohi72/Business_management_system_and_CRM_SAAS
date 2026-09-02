@@ -175,7 +175,7 @@
                                 <td>
                                     <input
                                         type="text"
-                                        name="items[0{{-- Quotation Items --}}][item_name]"
+                                        name="items[0][item_name]"
                                         placeholder="Item name"
                                     >
                                     
@@ -353,5 +353,188 @@
     </div>
 
 </div>
+<script>
+    let itemIndex = 1;
 
+    const itemsContainer = document.getElementById('quotation-items');
+    const addItemButton = document.getElementById('add-item');
+
+    addItemButton.addEventListener('click', function () {
+
+        const row = document.createElement('tr');
+
+        row.classList.add('quotation-item');
+
+        row.innerHTML = `
+            <td>
+                <input
+                    type="text"
+                    name="items[${itemIndex}][item_name]"
+                    placeholder="Item name"
+                >
+
+                <input
+                    type="text"
+                    name="items[${itemIndex}][item_description]"
+                    placeholder="Description"
+                    style="margin-top: 5px; width: 100%;"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    name="items[${itemIndex}][quantity]"
+                    value="1"
+                    min="1"
+                    class="item-quantity"
+                >
+            </td>
+
+            <td>
+                <input
+                    type="number"
+                    name="items[${itemIndex}][unit_price]"
+                    placeholder="0.00"
+                    min="0"
+                    step="0.01"
+                    class="item-price"
+                >
+            </td>
+
+            <td>
+                <span class="item-amount">
+                    ₹0.00
+                </span>
+            </td>
+
+            <td>
+                <button
+                    type="button"
+                    class="delete-btn"
+                >
+                    ×
+                </button>
+            </td>
+        `;
+
+        itemsContainer.appendChild(row);
+
+        itemIndex++;
+
+        calculateTotals();
+    });
+
+
+    itemsContainer.addEventListener('click', function (event) {
+
+        if (event.target.classList.contains('delete-btn')) {
+
+            const rows = itemsContainer.querySelectorAll('.quotation-item');
+
+            if (rows.length > 1) {
+                event.target.closest('.quotation-item').remove();
+
+                calculateTotals();
+            }
+        }
+    });
+
+
+    itemsContainer.addEventListener('input', function (event) {
+
+        if (
+            event.target.classList.contains('item-quantity') ||
+            event.target.classList.contains('item-price')
+        ) {
+            calculateTotals();
+        }
+    });
+
+
+    document.getElementById('discount').addEventListener('input', calculateTotals);
+    document.getElementById('tax').addEventListener('input', calculateTotals);
+
+
+    function calculateTotals()
+    {
+        let subtotal = 0;
+
+        const rows =
+            itemsContainer.querySelectorAll('.quotation-item');
+
+
+        rows.forEach(function (row) {
+
+            const quantity =
+                parseFloat(
+                    row.querySelector('.item-quantity').value
+                ) || 0;
+
+
+            const unitPrice =
+                parseFloat(
+                    row.querySelector('.item-price').value
+                ) || 0;
+
+
+            const amount =
+                quantity * unitPrice;
+
+
+            row.querySelector('.item-amount').textContent =
+                '₹' + amount.toFixed(2);
+
+
+            subtotal += amount;
+
+        });
+
+
+        const discount =
+            parseFloat(
+                document.getElementById('discount').value
+            ) || 0;
+
+
+        const taxRate =
+            parseFloat(
+                document.getElementById('tax').value
+            ) || 0;
+
+
+        const taxableAmount =
+            Math.max(
+                subtotal - discount,
+                0
+            );
+
+
+        const taxAmount =
+            (taxableAmount * taxRate) / 100;
+
+
+        const total =
+            taxableAmount + taxAmount;
+
+
+        document.getElementById('subtotal').textContent =
+            '₹' + subtotal.toFixed(2);
+
+
+        document.getElementById('discount-display').textContent =
+            '₹' + discount.toFixed(2);
+
+
+        document.getElementById('tax-display').textContent =
+            '₹' + taxAmount.toFixed(2);
+
+
+        document.getElementById('total').textContent =
+            '₹' + total.toFixed(2);
+    }
+
+
+    calculateTotals();
+</script>
 @endsection

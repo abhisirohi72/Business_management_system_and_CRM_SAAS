@@ -20,13 +20,24 @@ class Quotation extends Model
         'quotation_date',
         'valid_until',
         'status',
-        'subtotal',
+        'sub_total',
         'discount',
+        'tax_rate',
         'tax',
         'total',
         'notes',
         'terms',
         'created_by',
+    ];
+
+    protected $casts = [
+        'quotation_date' => 'date',
+        'valid_until' => 'date',
+        'sub_total' => 'decimal:2',
+        'discount' => 'decimal:2',
+        'tax_rate' => 'decimal:2',
+        'tax' => 'decimal:2',
+        'total' => 'decimal:2',
     ];
 
     public function scopeForCompany(Builder $query, int $companyId)

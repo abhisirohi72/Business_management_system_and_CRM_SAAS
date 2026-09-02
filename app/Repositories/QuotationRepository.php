@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Quotation;
-use App\Models\QuotationItem;
 use Illuminate\Support\Facades\DB;
 
 class QuotationRepository
@@ -11,162 +10,371 @@ class QuotationRepository
     public function getQuotations(int $companyId)
     {
         return Quotation::forCompany($companyId)
-            ->with(['client', 'project', 'createdBy', 'items'])
+            ->with([
+                'client',
+                'project',
+                'createdBy',
+                'items',
+            ])
             ->latest()
             ->paginate(10);
     }
+
 
     public function createQuotation(
         array $data,
         int $companyId,
         int $createdBy
     ) {
-        return DB::transaction(function () use ($data, $companyId, $createdBy) {
+        return DB::transaction(function () use (
+            $data,
+            $companyId,
+            $createdBy
+        ) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Calculate Subtotal
+            |--------------------------------------------------------------------------
+            */
 
             $subtotal = 0;
 
             foreach ($data['items'] as $item) {
 
-                $amount = $item['quantity'] * $item['unit_price'];
+                $amount =
+                    $item['quantity'] *
+                    $item['unit_price'];
 
                 $subtotal += $amount;
             }
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Discount
+            |--------------------------------------------------------------------------
+            */
+
             $discount = $data['discount'] ?? 0;
 
-            $taxPercentage = $data['tax'] ?? 0;
+            /*
+            |--------------------------------------------------------------------------
+            | Tax Rate
+            |--------------------------------------------------------------------------
+            */
 
-            $taxableAmount = $subtotal - $discount;
+            $taxRate = $data['tax'] ?? 0;
 
-            $taxAmount = ($taxableAmount * $taxPercentage) / 100;
 
-            $total = $taxableAmount + $taxAmount;
+            /*
+            |--------------------------------------------------------------------------
+            | Taxable Amount
+            |--------------------------------------------------------------------------
+            */
+
+            $taxableAmount = max(
+                $subtotal - $discount,
+                0
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Tax Amount
+            |--------------------------------------------------------------------------
+            */
+
+            $taxAmount =
+                ($taxableAmount * $taxRate) / 100;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Total
+            |--------------------------------------------------------------------------
+            */
+
+            $total =
+                $taxableAmount + $taxAmount;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Create Quotation
+            |--------------------------------------------------------------------------
+            */
 
             $quotation = Quotation::create([
+
                 'company_id' => $companyId,
+
                 'client_id' => $data['client_id'],
-                'project_id' => $data['project_id'] ?? null,
 
-                'quotation_number' => $this->generateQuotationNumber($companyId),
+                'project_id' =>
+                    $data['project_id'] ?? null,
 
-                'quotation_date' => $data['quotation_date'],
-                'valid_until' => $data['valid_until'],
-                'status' => $data['status'],
+                'quotation_number' =>
+                    $this->generateQuotationNumber(
+                        $companyId
+                    ),
 
-                'sub_total' => $subtotal,
-                'discount' => $discount,
-                'tax' => $taxAmount,
-                'total' => $total,
+                'quotation_date' =>
+                    $data['quotation_date'],
 
-                'notes' => $data['notes'] ?? null,
-                'terms' => $data['terms'] ?? null,
+                'valid_until' =>
+                    $data['valid_until'],
 
-                'created_by' => $createdBy,
+                'status' =>
+                    $data['status'],
+
+                'sub_total' =>
+                    $subtotal,
+
+                'discount' =>
+                    $discount,
+
+                'tax_rate' =>
+                    $taxRate,
+
+                'tax' =>
+                    $taxAmount,
+
+                'total' =>
+                    $total,
+
+                'notes' =>
+                    $data['notes'] ?? null,
+
+                'terms' =>
+                    $data['terms'] ?? null,
+
+                'created_by' =>
+                    $createdBy,
             ]);
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Create Quotation Items
+            |--------------------------------------------------------------------------
+            */
 
             foreach ($data['items'] as $item) {
 
-                $amount = $item['quantity'] * $item['unit_price'];
+                $amount =
+                    $item['quantity'] *
+                    $item['unit_price'];
 
-                QuotationItem::create([
-                    'quotation_id' => $quotation->id,
 
-                    'item_name' => $item['item_name'],
+                $quotation->items()->create([
+
+                    'item_name' =>
+                        $item['item_name'],
 
                     'item_description' =>
                         $item['item_description'] ?? null,
 
-                    'quantity' => $item['quantity'],
+                    'quantity' =>
+                        $item['quantity'],
 
-                    'unit_price' => $item['unit_price'],
+                    'unit_price' =>
+                        $item['unit_price'],
 
-                    'amount' => $amount,
+                    'amount' =>
+                        $amount,
                 ]);
             }
+
 
             return $quotation;
         });
     }
 
-    private function generateQuotationNumber(int $companyId): string
-    {
-        $count = Quotation::where('company_id', $companyId)->count() + 1;
-
-        return 'QT-' . str_pad(
-            $count,
-            4,
-            '0',
-            STR_PAD_LEFT
-        );
-    }
 
     public function updateQuotation(
         Quotation $quotation,
         array $data
     ) {
-        return DB::transaction(function () use ($quotation, $data) {
+        return DB::transaction(function () use (
+            $quotation,
+            $data
+        ) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Calculate Subtotal
+            |--------------------------------------------------------------------------
+            */
 
             $subtotal = 0;
 
             foreach ($data['items'] as $item) {
 
-                $amount = $item['quantity'] * $item['unit_price'];
+                $amount =
+                    $item['quantity'] *
+                    $item['unit_price'];
 
                 $subtotal += $amount;
             }
 
-            $discount = $data['discount'] ?? 0;
 
-            $taxPercentage = $data['tax'] ?? 0;
+            /*
+            |--------------------------------------------------------------------------
+            | Discount
+            |--------------------------------------------------------------------------
+            */
 
-            $taxableAmount = $subtotal - $discount;
+            $discount =
+                $data['discount'] ?? 0;
 
-            $taxAmount = ($taxableAmount * $taxPercentage) / 100;
 
-            $total = $taxableAmount + $taxAmount;
+            /*
+            |--------------------------------------------------------------------------
+            | Tax Rate
+            |--------------------------------------------------------------------------
+            */
+
+            $taxRate =
+                $data['tax'] ?? 0;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Taxable Amount
+            |--------------------------------------------------------------------------
+            */
+
+            $taxableAmount = max(
+                $subtotal - $discount,
+                0
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Tax Amount
+            |--------------------------------------------------------------------------
+            */
+
+            $taxAmount =
+                ($taxableAmount * $taxRate) / 100;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Total
+            |--------------------------------------------------------------------------
+            */
+
+            $total =
+                $taxableAmount + $taxAmount;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Update Quotation
+            |--------------------------------------------------------------------------
+            */
 
             $quotation->update([
-                'client_id' => $data['client_id'],
-                'project_id' => $data['project_id'] ?? null,
 
-                'quotation_date' => $data['quotation_date'],
-                'valid_until' => $data['valid_until'],
-                'status' => $data['status'],
+                'client_id' =>
+                    $data['client_id'],
 
-                'sub_total' => $subtotal,
-                'discount' => $discount,
-                'tax' => $taxAmount,
-                'total' => $total,
+                'project_id' =>
+                    $data['project_id'] ?? null,
 
-                'notes' => $data['notes'] ?? null,
-                'terms' => $data['terms'] ?? null,
+                'quotation_date' =>
+                    $data['quotation_date'],
+
+                'valid_until' =>
+                    $data['valid_until'],
+
+                'status' =>
+                    $data['status'],
+
+                'sub_total' =>
+                    $subtotal,
+
+                'discount' =>
+                    $discount,
+
+                'tax_rate' =>
+                    $taxRate,
+
+                'tax' =>
+                    $taxAmount,
+
+                'total' =>
+                    $total,
+
+                'notes' =>
+                    $data['notes'] ?? null,
+
+                'terms' =>
+                    $data['terms'] ?? null,
             ]);
 
-            // Remove old items
+
+            /*
+            |--------------------------------------------------------------------------
+            | Replace Items
+            |--------------------------------------------------------------------------
+            */
+
             $quotation->items()->delete();
 
-            // Create updated items
+
             foreach ($data['items'] as $item) {
 
-                $amount = $item['quantity'] * $item['unit_price'];
+                $amount =
+                    $item['quantity'] *
+                    $item['unit_price'];
+
 
                 $quotation->items()->create([
-                    'item_name' => $item['item_name'],
+
+                    'item_name' =>
+                        $item['item_name'],
 
                     'item_description' =>
                         $item['item_description'] ?? null,
 
-                    'quantity' => $item['quantity'],
+                    'quantity' =>
+                        $item['quantity'],
 
-                    'unit_price' => $item['unit_price'],
+                    'unit_price' =>
+                        $item['unit_price'],
 
-                    'tax' => $item['tax'] ?? 0,
-
-                    'amount' => $amount,
+                    'amount' =>
+                        $amount,
                 ]);
             }
 
+
             return $quotation;
         });
+    }
+
+
+    private function generateQuotationNumber(
+        int $companyId
+    ): string {
+
+        $count =
+            Quotation::where(
+                'company_id',
+                $companyId
+            )->count() + 1;
+
+
+        return 'QT-' .
+            str_pad(
+                $count,
+                4,
+                '0',
+                STR_PAD_LEFT
+            );
     }
 }

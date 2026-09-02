@@ -127,17 +127,17 @@
             <div class="user-info">
 
                 <div class="avatar">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    {{ strtoupper(substr(auth()->user()->name ?? 'GUEST', 0, 1)) }}
                 </div>
 
                 <div class="user-details">
 
                     <div class="user-name">
-                        {{ auth()->user()->name }}
+                        {{ auth()->user()->name ?? 'GUEST' }}
                     </div>
 
                     <div class="user-role">
-                        {{ auth()->user()->role && auth()->user()->role->name ? auth()->user()->role->name : 'N/A' }}
+                        {{ auth()->user()?->role?->name ?? 'N/A' }}
                     </div>
 
                 </div>
@@ -181,11 +181,11 @@
             <div class="topbar-right">
 
                 <div class="company-name">
-                    {{ auth()->user()->company->name }}
+                    {{ auth()->user()?->company?->name  ?? 'N/A' }}
                 </div>
 
                 <div class="topbar-user">
-                    {{ auth()->user()->name }}
+                    {{ auth()->user()?->name ?? 'GUEST' }}
                 </div>
 
                 <form method="POST" action="{{ route('logout') }}">

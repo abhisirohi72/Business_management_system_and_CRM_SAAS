@@ -154,4 +154,10 @@ class QuotationController extends Controller
             ->route('quotations.index')
             ->with('success', 'Quotation deleted successfully.');
     }
+
+    public function aiSummary(int $id) {
+        $quotation = Quotation::with('client')->findOrFail($id);
+        $summary = \App\Services\AIService::getQuotationSummary($quotation);
+        return response()->json(['summary' => $summary]);
+    }
 }

@@ -72,6 +72,9 @@ Route::middleware('auth')->group(function () {
 
     //For Quotations
     Route::resource('quotations', QuotationController::class);
+
+    // Route to get AI summary for a specific quotation
+    Route::get('/quotations/{id}/ai-summary', [QuotationController::class, 'aiSummary']);
 });
 
 Route::get("/dashboard", function(){
