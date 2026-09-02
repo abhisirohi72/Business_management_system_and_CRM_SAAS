@@ -36,10 +36,10 @@ def summarize(q: QuotationData):
       "verdict": "GO / NO-GO / NEGOTIATE - 2 words me",
       "score": "1-100 tak profitability score",
       "amount": "₹{q.total}",
-      "summary": "Client {q.client_name} ke liye {items_str} ka deal hai, total ₹{q.total}. 1 line me business sense batao Hinglish me, jaise 'Badhiya deal hai, margin accha hai'",
-      "risk": "Risk kya hai? Payment delay? Low margin? Status {q.status} aur due {q.due_date} ke hisab se 1 line Hinglish me",
+      "summary": "Client {q.client_name} ke liye {items_str} ka deal hai, total ₹{q.total}. 1 line me business sense batao English me, jaise 'Badhiya deal hai, margin accha hai'",
+      "risk": "Risk kya hai? Payment delay? Low margin? Status {q.status} aur due {q.due_date} ke hisab se 1 line English me",
       "opportunity": "Is deal me upsell ya negotiation ka chance hai? 1 line me",
-      "next_action": "Abhi turant kya karna chahiye? Approve karna hai ya client se baat karni hai? 1 line me clear action Hinglish me"
+      "next_action": "Abhi turant kya karna chahiye? Approve karna hai ya client se baat karni hai? 1 line me clear action English me"
     }}
     """
 
