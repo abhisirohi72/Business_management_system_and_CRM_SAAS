@@ -1,4 +1,4 @@
-```blade
+
 @extends('layouts.app')
 
 @section('title','Create Team Member')
@@ -141,4 +141,3 @@
 </div>
 
 @endsection
-```

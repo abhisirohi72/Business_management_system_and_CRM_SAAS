@@ -9,6 +9,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\InvoiceController;
 
 //Only for testing purposes, to check if the request is secure and what scheme is being used. This route should be removed in production.
 // Route::withoutMiddleware('web')->get('/debug-scheme', function (Request $request) {
@@ -75,6 +76,14 @@ Route::middleware('auth')->group(function () {
 
     // Route to get AI summary for a specific quotation
     Route::get('/quotations/{id}/ai-summary', [QuotationController::class, 'aiSummary'])->name("quotation.ai-summary");
+
+    Route::get(
+        'invoices/quotation/{quotation}',
+        [InvoiceController::class, 'quotationData']
+    )->name('invoices.quotation-data');
+
+    //For Quotation
+    Route::resource('invoices', InvoiceController::class);
 });
 
 Route::get("/dashboard", function(){

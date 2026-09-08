@@ -92,7 +92,7 @@
                 <span>Quotations</span>
             </a>
 
-            <a href="#" class="nav-link">
+            <a href="{{ route('invoices.index') }}" class="nav-link {{ request()->routeIs('invoices.*') ? 'active' : '' }}">
                 🧾
                 <span>Invoices</span>
             </a>

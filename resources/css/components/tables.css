@@ -45,3 +45,12 @@ td {
     text-align: center;
     color: #6b7280;
 }
+
+.actions .d-flex{
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+.actions {
+    white-space: nowrap;
+}
