@@ -226,4 +226,4 @@ This project is proprietary software. All rights reserved.
 ## Demo Credentials
 Email: abhisirohi72@gmail.com
 Password: password123
-Live: https://bixflow-ai-service.onrender.com
+Live: https://business-management-system-and-crm-saas.onrender.com
