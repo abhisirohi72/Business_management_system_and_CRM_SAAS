@@ -25,6 +25,9 @@
 @import './components/pagination.css';
 @import './components/page-header.css';
 @import './components/forms.css';
+@import './components/invoice.css';
+@import './components/quotation.css';
+@import './components/ai.css';
 
 /* =========================
    TAILWIND SOURCES
