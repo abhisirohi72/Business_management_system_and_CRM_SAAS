@@ -59,7 +59,7 @@ class InvoiceController extends Controller
             ->with('client')
             ->latest()
             ->get();
-            
+
         return view('invoices.create', [
             'clients' => $clients,
             'projects' => $projects,
@@ -196,5 +196,18 @@ class InvoiceController extends Controller
                 ];
             }),
         ]);
+    }
+
+    public function aiReminder(int $id)
+    {
+        $invoice_details= Invoice::forCompany(Auth::user()->company_id)
+                            ->with([
+                                'client',
+                                'project',
+                                'items'
+                            ])
+                            ->findOrFail($id);
+        $summary= \App\Services\AIService::generatePaymentReminder($invoice_details);
+        return response()->json(['summary' => $summary]);
     }
 }

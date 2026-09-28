@@ -31,7 +31,7 @@ Route::post('/login', [AuthController::class, 'login'])
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
-    
+
 Route::get("/register", function(){
     return view("auth.register");
 })->name("register");
@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/leads/{lead}', [LeadController::class, 'destroy'])
     ->name('leads.destroy');
-    
+
     //For Clients
     Route::resource('clients', ClientController::class);
 
@@ -84,6 +84,8 @@ Route::middleware('auth')->group(function () {
 
     //For Quotation
     Route::resource('invoices', InvoiceController::class);
+
+    Route::get("/invoices/{id}/ai-reminder", [InvoiceController::class, 'aiReminder'])->name('invoices.ai-reminder');
 });
 
 Route::get("/dashboard", function(){
